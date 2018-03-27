@@ -1,1 +1,58 @@
 Created new text file
+
+
+How to upload any local or network files with Load runner scripting:
+ There are several options that do the same work:
+
+Running test locally :
+Record script where you upload a local file. I suggest placing file in “C:\temp” before recording. 
+Run the test using same local machines. Test will pass since script and upload file both located in the same machine during recording and test execution. 
+Keep in mind to replace single backslash with double backslashes in the script. Here is the sample script:
+web_submit_data("AddAttachment.aspx",
+ "Action=https://learningshared.com/AddAttachment.aspx",
+ "Method=POST",
+ "EncType=multipart/form-data",
+ "RecContentType=text/html",
+ "Snapshot=t7.inf",
+ "Mode=HTML",
+ ITEMDATA,
+     "Name=__VIEWSTATE", "Value={ViewState_Value_1}", ENDITEM,
+     "Name=__EVENTVALIDATION", "Value={EVENTVALIDATION_1}", ENDITEM,
+     "Name=FileUpload1", "Value=C:\\Temp\\my_uploaded_file.pdf", "File=yes", ENDITEM,
+     "Name=Button1", "Value=Upload", ENDITEM,
+ LAST);
+
+Running test with any network load generator:This method is similar to the first method. Therefore, record the script the same way as above. 
+Create a network share location with read & write access. Place files those need to be uploaded. 
+Replace local file location with network file location. Make sure to replace single backslash with double backslashes in the script. Here is the sample script:
+web_submit_data("AddAttachment.aspx",
+ "Action=https://learningshared.com/AddAttachment.aspx",
+ "Method=POST",
+ "EncType=multipart/form-data",
+ "RecContentType=text/html",
+ "Snapshot=t7.inf",
+ "Mode=HTML",
+ ITEMDATA,
+     "Name=__VIEWSTATE", "Value={ViewState_Value_1}", ENDITEM,
+     "Name=__EVENTVALIDATION", "Value={EVENTVALIDATION_1}", ENDITEM,
+     "Name=FileUpload1", "Value=\\\\shared_network_location\\my_uploaded_file.pdf", "File=yes", ENDITEM,
+     "Name=Button1", "Value=Upload", ENDITEM,
+ LAST);
+
+ Attach upload file with scripts:
+This method is similar to the first method. Record the script with a local file.
+Add all the files (to be uploaded) to scripts by clicking “Add Files to Scripts…” menu from “Files -> Add Files to Scripts…”
+Now clear file location and just leave the file name. These scripts should run from any load generators in the network or can be run from Performance center ALM too.
+web_submit_data("AddAttachment.aspx",
+ "Action=https://learningshared.com/AddAttachment.aspx",
+ "Method=POST",
+ "EncType=multipart/form-data",
+ "RecContentType=text/html",
+ "Snapshot=t7.inf",
+ "Mode=HTML",
+ ITEMDATA,
+     "Name=__VIEWSTATE", "Value={ViewState_Value_1}", ENDITEM,
+     "Name=__EVENTVALIDATION", "Value={EVENTVALIDATION_1}", ENDITEM,
+     "Name=FileUpload1", "Value=my_uploaded_file.pdf", "File=yes", ENDITEM,
+     "Name=Button1", "Value=Upload", ENDITEM,
+ LAST);
